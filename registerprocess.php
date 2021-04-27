@@ -3,15 +3,8 @@
  require_once "./core/db.php";
  
  
- // sanitize or clean forms
+ require_once "./core/functions.php";
 
-    function sanitize($data) {
-        $text = trim($data);
-        $text = stripslashes($text);
-        $text = htmlspecialchars($text);
-
-        return $text;
-    }
     // collect data from form
 $errors= "";
 
@@ -59,7 +52,6 @@ if(isset($_POST['register'])){
         $errors .= "<br>Email must not be less than 5";
     } else{
         $email = sanitize(filter_var($email, FILTER_SANITIZE_EMAIL));
-        $email = strtolower($email);
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
             $errors .= "Enter a valid email address";   
         }

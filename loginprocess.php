@@ -2,15 +2,11 @@
 // database connection
 require_once "./core/db.php";
 
-// sanitize or clean forms
+require_once "./core/functions.php";
 
-function sanitize($data) {
-    $text = trim($data);
-    $text = stripslashes($text);
-    $text = htmlspecialchars($text);
 
-    return $text;
-}
+
+
 
     $errors= "";
 

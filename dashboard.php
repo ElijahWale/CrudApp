@@ -50,8 +50,9 @@ if(!isset($_SESSION['user_id']) && empty($_SESSION['user_id'])){
                 if(!$select_all_courses){
                     echo "Error running the query!";
                 }
-                $i = 1; 
-                while($row = mysqli_fetch_assoc($select_all_courses)){
+                $i = 1;
+                if($num_rows = mysqli_num_rows($select_all_courses) > 0){
+                     while($row = mysqli_fetch_assoc($select_all_courses)){
                     $id = $i++;
                     $course_enrolled = $row['course_enrolled'];
                     $course_details = $row['details'];
@@ -59,15 +60,19 @@ if(!isset($_SESSION['user_id']) && empty($_SESSION['user_id'])){
                     $course_date = $row['date_added'];
 
             ?>
+                 
+               
                 <tr>
                 <th scope="row"><?=$id; ?></th>
                 <th><?=$username ?></th>
                 <td><?=$course_enrolled; ?></td>
                 <td><?=$course_details; ?></td>
                 <td><?=$course_date; ?></td>    
-                <td> <a href="update.php?id=<?= $row['id'] ?>"><button type="button" class="btn btn-success">Edit</button></a>|<a href="delete.php?id=<?= $row['id'] ?>"> <button type="button" class="btn btn-danger">Delete</button></a></td>
+                <td> <a href="update.php?id=<?= $row['id']; ?>"><button type="button" class="btn btn-success">Edit</button></a>|<a href="delete.php?id=<?= $row['id']; ?>"> <button type="button" class="btn btn-danger">Delete</button></a></td>
                 </tr>
-            <?php } ?>
+            <?php } }else{?>
+                <div class="alert alert-danger">No records found in the database</div>
+                <?php } ?>
             </tbody>
             </table>
         </div>
