@@ -2,43 +2,78 @@
 session_start();
 // database connection
 require_once "./core/db.php";
-// user that is not logged in should not have to this page
-if(!$_SESSION['user_id']){
-    $_SESSION['errors'] = "User is not allowed to view this page";
-    header('location: login.php');
-}
+
 
 $errors="";
 if(isset($_POST['submit'])){
 
     // validation for password
     if(empty($_POST['password'])){
-        $errors .= "<br>your password is empty";
+        $errors .= "<br>your old password field is empty";
     }else{
         $password = $_POST['password'];
     }
-    
-    // validation for email
-     $email = $_POST['email'];
+    // validation for password
+    if(empty($_POST['newPassword'])){
+        $errors .= "<br>your new password field is empty";
+    }else{
+        $newPassword = $_POST['newPassword'];
+    }
+
+     // validation for email
+     if(empty($_POST['email'])){
+        $errors .= "<br>your email is empty ";
+        
+    }else{
+        $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+            $errors .= "Enter a valid email address";   
+        }
+    }
+
 
     if($errors){
         echo $errors;
+        // if there are  no errors in form
     }else{
+        // checking the database if the email has been registered
+        $sql = "SELECT * FROM users WHERE email='$email'";
+        $result = mysqli_query($db_connect, $sql);
 
+        if(!$result){
+            $_SESSION['errors'] = 'Error running the query!';
+           
+        }
+        //checking if the old password is in the database and also upfating the password 
+        if(mysqli_num_rows($result) == 1){
+            if($row = mysqli_fetch_assoc($result)){
+                if(password_verify($password, $row['password'])){
 
-            $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+                        $passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
 
-            $sql = "UPDATE users SET password= 'passwordHash' WHERE email = $email";
-            $query = mysqli_query($db_connect, $sql);
+                        $sql = "UPDATE users SET password= '$passwordHash' WHERE email = '$email'";
+                        $query = mysqli_query($db_connect, $sql);
 
-            if(!$query){
-                $error_db = 'Error running the query!';
-                $_SESSION['error'] = $error_db;
-                
-            }else{
-                $_SESSION['success'] = 'Reset password successfully';
-                header('location: login.php');
+                        if(!$query){
+                            $error_db = 'Error running the query!';
+                            $_SESSION['errors'] = $error_db;
+                            
+                        }else{
+                            $_SESSION["success"] = "Reset password successfully";
+                            header('location: login.php');
+                        }
+                }else{
+                    $errors = 'Wrong Email or password';
+                    $_SESSION['errors'] = $errors;
+                }
+            
             }
+                
+        }else{
+            $errors = 'User cannot be found';
+            $_SESSION['errors'] = $errors;
+        }
+           
             
         
     }
@@ -55,14 +90,7 @@ if(isset($_POST['submit'])){
 
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<?php include "lib/header.php"; ?>
 <body>
     <div class="container">
     <?php
@@ -79,21 +107,28 @@ if(isset($_POST['submit'])){
         }
     ?>
     <h1>Reset Password</h1>
-        <form action="" method="POST">
-            <label>Email</label><br>
-            <input 
-            
-                <?php
-            if(isset($_SESSION['email'])){
-                echo "value=" . $_SESSION['email'];
-            }
+        <main class="form-signin w-50">
+            <a href="index.php"><button type="button" class="btn btn-primary">Home</button></a>
+            <form action="resetpassword.php" method="POST">
+                <h1 class="h3 mb-3 fw-normal">Please Reset Password</h1>
 
-            ?>
-            type="text" name="email"><br>
-            <label for="">Enter New Password</label><br>
-            <input type="password" name="password" placeholder="enter your password"><br>
-            <button type="submit" name="submit">Update password </button>
-        </form>
+                <div class="form-floating">
+                <input type="email" class="form-control" id="floatingInput" name="email" placeholder="enter your email">
+                <label for="floatingInput">Email address</label>
+                </div>
+                <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Enter your Old Password">
+                <label for="floatingPassword">Password</label>
+                </div>
+                <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPassword" name="newPassword" placeholder="Enter your New Password">
+                <label for="floatingPassword">Password</label>
+                </div>
+                <button class="w-100 btn btn-lg btn-primary" type="submit" name="submit">Reset</button>
+            </form>
+            
+        </main>
+        
     </div>
-</body>
-</html>
+    
+    <?php include "lib/footer.php"; ?>

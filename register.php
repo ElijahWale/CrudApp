@@ -15,26 +15,32 @@ include "registerprocess.php";
                 }
         ?>
     
-        <form action="register.php" method="POST">
-            <div class="form-group">
-                <label for="">First Name</label>
-                <input type="text" name="firstName" placeholder="">
-            </div>
-            <div class="form-group">
-                <label for="">Last Name</label>
-                <input type="text" name="lastName" placeholder="">
-            </div>
-            <div class="form-group">
-                <label for="">Email</label>
-                <input type="text" name="email" placeholder="">
-            </div>
-            <div class="form-group">
-                <label for="">Password</label>
-                <input type="text" name="password" placeholder="">
-            </div>
-            <button type="submit" name="register">Register</button>
-        </form>
-        <a href="forgotpassword.php">Forgot password</a>
-        <a href="login.php">Login</a>
+        <main class="form-signin w-50">
+            <a href="index.php"><button type="button" class="btn btn-primary">Home</button></a>
+            <form action="register.php" method="POST">
+                <h1 class="h3 mb-3 fw-normal">Please sign Up</h1>
+
+                <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInput" name="firstName" placeholder="enter your first Name">
+                <label for="floatingInput">First Name</label>
+                </div>
+                <div class="form-floating">
+                <input type="text" name="lastName" placeholder="Enter Last Name" class="form-control" id="floatingInput" name="lastName">
+                <label for="floatingInput">Last Name</label>
+                </div>
+                <div class="form-floating">
+                <input type="email" class="form-control" id="floatingInput" name="email" placeholder="enter your email">
+                <label for="floatingInput">Email address</label>
+                </div>
+                <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Enter your Password">
+                <label for="floatingPassword">Password</label>
+                </div>
+                <button class="w-100 btn btn-lg btn-primary" type="submit" name="register">Register</button>
+            </form>
+            <a href="resetpassword.php">Reset password</a>|
+            <a href="login.php">Login</a>
+        </main>
+        
     </div>
     <?php include "lib/footer.php"; ?>

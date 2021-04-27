@@ -1,4 +1,5 @@
 <?php
+session_start();
 // database connection
 require_once "./core/db.php";
 
@@ -12,10 +13,10 @@ function sanitize($data) {
 
 if(isset($_POST['submit'])){
     $errors = '';
-    if(empty($_POST['title'])){
-        $errors.= "your title is empty";
+    if(empty($_POST['course'])){
+        $errors.= "your course field is empty";
     }else{
-        $title = sanitize($_POST['title']);
+        $course = sanitize($_POST['course']);
     }
 
 
@@ -29,12 +30,14 @@ if(isset($_POST['submit'])){
     if($errors){
         echo $errors;
     }else{
+        $user_id = $_SESSION['user_id'];
+        $username = $_SESSION['firstName']; 
          //Insert course details in the courses table
-         $sql = "INSERT INTO courses (`title`,`details`, `date_added`) VALUES ('$title', '$details', now())";
+         $sql = "INSERT INTO courses (`course_enrolled`,`details`, `date_added`, `user_id`, username) VALUES('$course', '$details', now(), $user_id, $username)";
          $insert_course_db = mysqli_query($db_connect, $sql);
 
          if(!$insert_course_db){
-             $error_db = '<div class="alert alert-danger">There was an error inserting the course details in the database!</div>'; 
+             $error_db = '<div class="alert alert-danger">There was an error inserting the course details in the database!</div>' . mysqli_error($db_connect); 
              echo $error_db; 
              
          }else{
@@ -53,8 +56,8 @@ if(isset($_POST['submit'])){
 
             <form action="create.php" method="POST">
                 <div class="form-group">
-                    <label for="">Title</label><br>
-                    <input type="text" name="title">
+                    <label for="">Course Enrolled</label><br>
+                    <input type="text" name="course">
                 </div>
                 <div class="form-group">
                     <label for="">Course Details</label><br>

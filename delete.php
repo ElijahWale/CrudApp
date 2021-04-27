@@ -1,11 +1,11 @@
 <?php
+session_start();
 // database connection
 require_once "./core/db.php";
 
 if(isset($_GET['id'])){
     $course_id = $_GET['id'];
 }
-
 $sql = "DELETE FROM courses WHERE id = $course_id";
 $delete_course_db = mysqli_query($db_connect, $sql);
 
