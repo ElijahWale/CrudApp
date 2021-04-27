@@ -33,7 +33,7 @@ if(isset($_POST['submit'])){
         $user_id = $_SESSION['user_id'];
         $username = $_SESSION['firstName']; 
          //Insert course details in the courses table
-         $sql = "INSERT INTO courses (`course_enrolled`,`details`, `date_added`, `user_id`, username) VALUES('$course', '$details', now(), $user_id, $username)";
+         $sql = "INSERT INTO courses (`course_enrolled`,`details`, `date_added`, `user_id`, `username`) VALUES('$course', '$details', now(), $user_id, '$username')";
          $insert_course_db = mysqli_query($db_connect, $sql);
 
          if(!$insert_course_db){
@@ -53,7 +53,8 @@ if(isset($_POST['submit'])){
 <?php include "lib/header.php"; ?>
 <body>
     <div class="container">
-
+            <h1>Add Course</h1>
+            <a href="dashboard.php"><button type="button" class="btn btn-primary">Go Back</button></a>
             <form action="create.php" method="POST">
                 <div class="form-group">
                     <label for="">Course Enrolled</label><br>

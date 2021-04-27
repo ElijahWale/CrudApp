@@ -110,7 +110,7 @@ if(isset($_POST['submit'])){
         <main class="form-signin w-50">
             <a href="index.php"><button type="button" class="btn btn-primary">Home</button></a>
             <form action="resetpassword.php" method="POST">
-                <h1 class="h3 mb-3 fw-normal">Please Reset Password</h1>
+                
 
                 <div class="form-floating">
                 <input type="email" class="form-control" id="floatingInput" name="email" placeholder="enter your email">
@@ -118,11 +118,11 @@ if(isset($_POST['submit'])){
                 </div>
                 <div class="form-floating">
                 <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Enter your Old Password">
-                <label for="floatingPassword">Password</label>
+                <label for="floatingPassword">Enter your Old Password</label>
                 </div>
                 <div class="form-floating">
                 <input type="password" class="form-control" id="floatingPassword" name="newPassword" placeholder="Enter your New Password">
-                <label for="floatingPassword">Password</label>
+                <label for="floatingPassword">Enter your New Password</label>
                 </div>
                 <button class="w-100 btn btn-lg btn-primary" type="submit" name="submit">Reset</button>
             </form>

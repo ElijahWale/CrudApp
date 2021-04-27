@@ -1,3 +1,15 @@
+<?php 
+session_start();
+
+// if user is not logged in 
+if(isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])){
+    header("location: dashboard.php");
+}
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

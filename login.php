@@ -8,15 +8,15 @@ include "loginprocess.php";
 
         <?php
             if(isset($_SESSION['success']) &&  !empty($_SESSION['success'])){
-                echo $_SESSION["success"];
-                unset($_SESSION["success"]);
+                echo $_SESSION['success'];
+                unset($_SESSION['success']);
             }
         ?>
 
         <?php
             if(isset($_SESSION['error']) &&  !empty($_SESSION['error'])){
-                echo $_SESSION["error"];
-                unset($_SESSION["error"]);
+                echo $_SESSION['error'];
+                unset($_SESSION['error']);
             }
         ?>
        
